@@ -1,0 +1,29 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("BACKEND_POSTGRES_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id       Int       @id @default(autoincrement()) @map("user_id")
+  username String    @map("username")
+  password String    @map("password")
+  contacts Contact[]
+
+  @@map("user")
+}
+
+model Contact {
+  id          Int     @id @default(autoincrement()) @map("contact_id")
+  name        String  @map("name")
+  phoneNumber String? @map("phone_number")
+  email       String? @map("email")
+  address     String? @map("address")
+  user        User    @relation(fields: [userId], references: [id])
+  userId      Int     @map("user_id")
+
+  @@map("contact")
+}
