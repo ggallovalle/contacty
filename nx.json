@@ -23,12 +23,8 @@
     }
   },
   "projects": {
-    "contact": {
+    "frontend": {
       "tags": []
-    },
-    "contact-e2e": {
-      "tags": [],
-      "implicitDependencies": ["contact"]
     }
   }
 }
