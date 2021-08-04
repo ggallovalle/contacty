@@ -23,6 +23,9 @@
     }
   },
   "projects": {
+    "backend": {
+      "tags": []
+    },
     "frontend": {
       "tags": []
     }
