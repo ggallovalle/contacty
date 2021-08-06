@@ -7,9 +7,9 @@ import { CreateContact, IContactsRepository } from './contacts.types';
 export class ContactsRepository implements IContactsRepository {
   constructor(private readonly _db: PrismaService) {}
 
-  create(data: CreateContact, auth: AuthAware) {
+  async create(data: CreateContact, auth: AuthAware) {
     return this._db.contact.create({
-      select: ContactsRepository._selectFields(),
+      select: { id: true },
       data: {
         userId: auth.userId,
         email: data.email,
@@ -29,7 +29,7 @@ export class ContactsRepository implements IContactsRepository {
     };
   }
 
-  findById(id: number, auth: AuthAware) {
+  async findById(id: number, auth: AuthAware) {
     return this._db.contact.findFirst({
       where: {
         userId: auth.userId,
@@ -39,7 +39,7 @@ export class ContactsRepository implements IContactsRepository {
     });
   }
 
-  findAll(auth: AuthAware) {
+  async findAll(auth: AuthAware) {
     return this._db.contact.findMany({
       where: {
         userId: auth.userId,
@@ -48,22 +48,24 @@ export class ContactsRepository implements IContactsRepository {
     });
   }
 
-  deleteById(id: number) {
-    return this._db.contact.delete({
+  async deleteById(id: number, auth: AuthAware) {
+    await this._db.contact.deleteMany({
       where: {
         id,
+        userId: auth.userId,
       },
     });
   }
 
-  updateById(
+  async updateById(
     id: number,
     data: Partial<{
       name: string;
       phoneNumber: string;
       email: string;
       address: string;
-    }>
+    }>,
+    auth: AuthAware
   ) {
     // NOTE is better to be explicit when updating because of the dynamic nature,
     //  of javascript and the possible use of "any" at the consumer side

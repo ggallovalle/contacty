@@ -30,11 +30,12 @@ export class ContactsService {
     return this._repo.findAll(auth);
   }
 
-  deleteById(id: number): Promise<{ id: number }> {
-    return this._repo.deleteById(id);
+  async deleteById(id: number, auth: AuthAware): Promise<{ id: number }> {
+    await this._repo.deleteById(id, auth);
+    return { id };
   }
 
-  updateById(id: number, data: Partial<Contact>) {
-    return this._repo.updateById(id, data);
+  updateById(id: number, data: Partial<Contact>, auth: AuthAware) {
+    return this._repo.updateById(id, data, auth);
   }
 }

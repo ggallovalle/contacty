@@ -21,7 +21,11 @@ export interface IContactsRepository {
 
   findAll(auth: AuthAware): Promise<Contact[]>;
 
-  deleteById(id: number): Promise<{ id: number }>;
+  deleteById(id: number, auth: AuthAware): Promise<void>;
 
-  updateById(id: number, data: Partial<Contact>): Promise<{ id: number }>;
+  updateById(
+    id: number,
+    data: Partial<Contact>,
+    auth: AuthAware
+  ): Promise<{ id: number }>;
 }
