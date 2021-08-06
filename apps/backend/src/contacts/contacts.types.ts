@@ -15,13 +15,13 @@ export type CreateContact = {
 };
 
 export interface IContactsRepository {
-  create(data: CreateContact, auth: AuthAware): Promise<Contact>;
+  create(data: CreateContact, auth: AuthAware): Promise<{ id: number }>;
 
   findById(id: number, auth: AuthAware): Promise<Contact>;
 
-  findAll(auth: AuthAware);
+  findAll(auth: AuthAware): Promise<Contact[]>;
 
   deleteById(id: number): Promise<{ id: number }>;
 
-  updateById(id: number, data: Partial<Contact>);
+  updateById(id: number, data: Partial<Contact>): Promise<{ id: number }>;
 }
