@@ -3,10 +3,10 @@ import * as faker from 'faker';
 import { ContactsModule } from './contacts.module';
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 import { ContactsSeeder } from './contacts.seeder';
 import { UserSeeder } from '../auth/user.seeder';
-import { PrismaService } from '../shared/prisma.service';
+import { PrismaService } from '../../shared/prisma.service';
 
 describe('Contacts', () => {
   let app: INestApplication;

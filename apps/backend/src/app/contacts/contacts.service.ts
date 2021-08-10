@@ -1,7 +1,6 @@
-import { NotFoundException } from '@nestjs/common';
 import { Contact, CreateContact, IContactsRepository } from './contacts.types';
-import { AuthAware } from '../types/auth';
-import { ValidationError } from '../errors';
+import { AuthAware } from '../../types/auth';
+import { NotFoundError, ValidationError } from '../../errors';
 
 export class ContactsService {
   constructor(private readonly _repo: IContactsRepository) {}
@@ -20,7 +19,7 @@ export class ContactsService {
   async findById(id: number, auth: AuthAware): Promise<Contact> {
     const res = await this._repo.findById(id, auth);
     if (!res) {
-      throw new NotFoundException();
+      throw new NotFoundError();
     }
     return res;
   }

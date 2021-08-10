@@ -1,8 +1,7 @@
 import { ContactsService } from './contacts.service';
 import { IContactsRepository } from './contacts.types';
 import { mock, MockProxy } from 'jest-mock-extended';
-import { ValidationError } from '../errors';
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundError, ValidationError } from '../../errors';
 
 describe('ContactsService', () => {
   let sut: ContactsService;
@@ -29,18 +28,16 @@ describe('ContactsService', () => {
       expect(repo.create).toBeCalledWith(data, auth);
     });
 
-    test.each([{}, { email: 'asdf' }])(
-      "should trow if doesn't pass validation",
-      async (data: any) => {
-        // Arrange
-        // Act
-        // Assert
-        await expect(sut.create(data, auth)).rejects.toThrow(ValidationError);
-      }
-    );
+    test.each(
+      // Arrange
+      [{}, { email: 'asdf' }]
+    )("should trow if doesn't pass validation", async (data: any) => {
+      // Assert
+      await expect(sut.create(data, auth)).rejects.toThrow(ValidationError);
+    });
   });
 
-  test('findAll should call repo.findAll', async () => {
+  test('#findAll should call repo.findAll', async () => {
     // Arrange
     // Act
     const _ = await sut.findAll(auth);
@@ -49,12 +46,12 @@ describe('ContactsService', () => {
     expect(repo.findAll).toBeCalledWith(auth);
   });
 
-  test("findById should throw if repository couldn't find it", async () => {
+  test("#findById should throw if repository couldn't find it", async () => {
     // Arrange
     const id = 10;
     repo.findById.mockReturnValueOnce(Promise.resolve(null));
     // Act
     // Assert
-    await expect(sut.findById(id, auth)).rejects.toThrow(NotFoundException);
+    await expect(sut.findById(id, auth)).rejects.toThrow(NotFoundError);
   });
 });

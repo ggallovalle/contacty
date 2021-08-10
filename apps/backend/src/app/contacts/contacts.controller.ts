@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 import { CurrentUser } from '../auth/current-user.decorator';
-import { AuthAware } from '../types/auth';
+import { AuthAware } from '../../types/auth';
 
 @Controller('contacts')
 export class ContactsController {

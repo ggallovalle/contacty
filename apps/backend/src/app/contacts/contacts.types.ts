@@ -1,4 +1,4 @@
-import { AuthAware } from '../types/auth';
+import { AuthAware } from '../../types/auth';
 
 export type Contact = {
   id: number;

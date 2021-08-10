@@ -1,5 +1,5 @@
-import { PrismaService } from '../shared/prisma.service';
-import { AuthAware } from '../types/auth';
+import { PrismaService } from '../../shared/prisma.service';
+import { AuthAware } from '../../types/auth';
 import { CreateContact, IContactsRepository } from './contacts.types';
 
 export class ContactsRepository implements IContactsRepository {

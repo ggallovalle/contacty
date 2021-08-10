@@ -1,4 +1,4 @@
-import { ClassProvider, FactoryProvider, Scope, Type } from '@nestjs/common';
+import { ClassProvider, FactoryProvider, Scope } from '@nestjs/common';
 
 export const classProvider =
   <T>(token: ClassProvider['provide'], scope?: Scope) =>
