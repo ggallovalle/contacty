@@ -8,7 +8,7 @@ import { ContactsSeeder } from './contacts.seeder';
 import { UserSeeder } from '../auth/user.seeder';
 import { PrismaService } from '../shared/prisma.service';
 
-describe('e2e Contacts', () => {
+describe('Contacts', () => {
   let app: INestApplication;
   let seeder: PrismaService;
   let users: any[];
