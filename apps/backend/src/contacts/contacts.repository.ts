@@ -1,11 +1,13 @@
-import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../shared/prisma.service';
 import { AuthAware } from '../types/auth';
 import { CreateContact, IContactsRepository } from './contacts.types';
 
-@Injectable()
 export class ContactsRepository implements IContactsRepository {
   constructor(private readonly _db: PrismaService) {}
+
+  static create(db: PrismaService): ContactsRepository {
+    return new ContactsRepository(db);
+  }
 
   async create(data: CreateContact, auth: AuthAware) {
     return this._db.contact.create({

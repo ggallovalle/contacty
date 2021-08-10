@@ -14,6 +14,7 @@ describe('e2e Contacts', () => {
   let users: any[];
   let contacts: any[];
   let currentUser: any;
+  let currentUserContacts: any[];
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [ContactsModule, SharedModule, ContactsSeeder, UserSeeder],
@@ -21,9 +22,9 @@ describe('e2e Contacts', () => {
 
     app = moduleRef.createNestApplication();
     await app.init();
-    seeder = await app.resolve(PrismaService);
-    const userSeeder = await app.resolve(UserSeeder);
-    const contactSeeder = await app.resolve(ContactsSeeder);
+    seeder = app.get(PrismaService);
+    const userSeeder = app.get(UserSeeder);
+    const contactSeeder = app.get(ContactsSeeder);
     await userSeeder.seed(2);
     users = userSeeder.data;
     await contactSeeder.seed(
@@ -32,6 +33,7 @@ describe('e2e Contacts', () => {
     );
     contacts = contactSeeder.data;
     currentUser = users[0];
+    currentUserContacts = contacts.filter((it) => it.userId === currentUser.id);
   });
 
   afterAll(async () => {
@@ -79,12 +81,12 @@ describe('e2e Contacts', () => {
 
   test('/PUT contacts', async () => {
     // Arrange
-    // NOTE delete last update first
-    let toUpdate = contacts.find((it) => it.userId === currentUser.id);
     const contact = {
       name: faker.name.firstName(),
       address: faker.address.city(),
     };
+    const toUpdate = currentUserContacts[0];
+    currentUserContacts.splice(0, 1);
 
     // Act
     await request(app.getHttpServer())
@@ -106,14 +108,8 @@ describe('e2e Contacts', () => {
 
   test('/DELETE contacts', async () => {
     // Arrange
-    // NOTE delete last update first
-    let toDelete;
-    for (let i = contacts.length - 1; i > -1; i--) {
-      if (contacts[i].userId === currentUser.id) {
-        toDelete = contacts[i];
-        break;
-      }
-    }
+    const toDelete = currentUserContacts[0];
+    currentUserContacts.splice(0, 1);
     // Act
     await request(app.getHttpServer())
       .delete(`/contacts/${toDelete.id}`)

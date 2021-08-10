@@ -1,15 +1,14 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 import { Contact, CreateContact, IContactsRepository } from './contacts.types';
 import { AuthAware } from '../types/auth';
-import { CONTACT_REPOSITORY } from './contract.constats';
 import { ValidationError } from '../errors';
 
-@Injectable()
 export class ContactsService {
-  constructor(
-    @Inject(CONTACT_REPOSITORY)
-    private readonly _repo: IContactsRepository
-  ) {}
+  constructor(private readonly _repo: IContactsRepository) {}
+
+  static create(repo: IContactsRepository): ContactsService {
+    return new ContactsService(repo);
+  }
 
   async create(data: CreateContact, auth: AuthAware): Promise<{ id: number }> {
     if (!data.name) {

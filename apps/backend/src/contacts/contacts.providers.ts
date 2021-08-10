@@ -1,7 +1,9 @@
-import { classProvider } from '../utils/provider';
+import { makeProvider } from '../utils/provider';
 import { CONTACT_REPOSITORY } from './contract.constats';
 import { IContactsRepository } from './contacts.types';
+import { ContactsService } from './contacts.service';
 
-export const contactsRepository = {
-  class: classProvider<IContactsRepository>(CONTACT_REPOSITORY),
+export const providers = {
+  repository: makeProvider<IContactsRepository>(CONTACT_REPOSITORY),
+  service: makeProvider<ContactsService>(ContactsService),
 };
