@@ -1,7 +1,8 @@
 import { ContactsService } from './contacts.service';
 import { IContactsRepository } from './contacts.types';
 import { mock, MockProxy } from 'jest-mock-extended';
-import { NotFoundError, ValidationError } from '../errors';
+import { ValidationError } from '../errors';
+import { NotFoundException } from '@nestjs/common';
 
 describe('ContactsService', () => {
   let sut: ContactsService;
@@ -54,6 +55,6 @@ describe('ContactsService', () => {
     repo.findById.mockReturnValueOnce(Promise.resolve(null));
     // Act
     // Assert
-    await expect(sut.findById(id, auth)).rejects.toThrow(NotFoundError);
+    await expect(sut.findById(id, auth)).rejects.toThrow(NotFoundException);
   });
 });

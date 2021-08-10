@@ -1,6 +1,7 @@
 import { AuthAware } from '../types/auth';
 
 export type Contact = {
+  id: number;
   name: string;
   address: string;
   email: string;

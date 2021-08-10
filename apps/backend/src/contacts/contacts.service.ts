@@ -1,8 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Contact, CreateContact, IContactsRepository } from './contacts.types';
 import { AuthAware } from '../types/auth';
 import { CONTACT_REPOSITORY } from './contract.constats';
-import { NotFoundError, ValidationError } from '../errors';
+import { ValidationError } from '../errors';
 
 @Injectable()
 export class ContactsService {
@@ -21,7 +21,7 @@ export class ContactsService {
   async findById(id: number, auth: AuthAware): Promise<Contact> {
     const res = await this._repo.findById(id, auth);
     if (!res) {
-      throw new NotFoundError();
+      throw new NotFoundException();
     }
     return res;
   }

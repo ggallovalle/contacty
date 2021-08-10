@@ -22,6 +22,7 @@ export class ContactsRepository implements IContactsRepository {
 
   private static _selectFields() {
     return {
+      id: true,
       name: true,
       address: true,
       email: true,
