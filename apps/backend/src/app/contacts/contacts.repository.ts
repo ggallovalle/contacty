@@ -3,14 +3,14 @@ import { AuthAware } from '../../types/auth';
 import { CreateContact, IContactsRepository } from './contacts.types';
 
 export class ContactsRepository implements IContactsRepository {
-  constructor(private readonly _db: PrismaService) {}
+  constructor(private readonly _prisma: PrismaService) {}
 
   static create(db: PrismaService): ContactsRepository {
     return new ContactsRepository(db);
   }
 
   async create(data: CreateContact, auth: AuthAware) {
-    return this._db.contact.create({
+    return this._prisma.contact.create({
       select: { id: true },
       data: {
         userId: auth.userId,
@@ -33,7 +33,7 @@ export class ContactsRepository implements IContactsRepository {
   }
 
   async findById(id: number, auth: AuthAware) {
-    return this._db.contact.findFirst({
+    return this._prisma.contact.findFirst({
       where: {
         userId: auth.userId,
         id,
@@ -43,7 +43,7 @@ export class ContactsRepository implements IContactsRepository {
   }
 
   async findAll(auth: AuthAware) {
-    return this._db.contact.findMany({
+    return this._prisma.contact.findMany({
       where: {
         userId: auth.userId,
       },
@@ -52,7 +52,7 @@ export class ContactsRepository implements IContactsRepository {
   }
 
   async deleteById(id: number, auth: AuthAware) {
-    await this._db.contact.deleteMany({
+    await this._prisma.contact.deleteMany({
       where: {
         id,
         userId: auth.userId,
@@ -72,7 +72,7 @@ export class ContactsRepository implements IContactsRepository {
   ) {
     // NOTE is better to be explicit when updating because of the dynamic nature,
     //  of javascript and the possible use of "any" at the consumer side
-    return this._db.contact.update({
+    return this._prisma.contact.update({
       where: {
         id,
       },

@@ -1,1 +1,1 @@
-export * from './lib/providencia-base-providencia';
+export * from './lib/providencia-base';

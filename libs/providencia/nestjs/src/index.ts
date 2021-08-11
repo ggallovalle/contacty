@@ -1,1 +1,1 @@
-export * from './lib/providencia-nestjs-providencia-nestjs';
+export * from './lib/providencia-nestjs';
