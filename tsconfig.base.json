@@ -15,12 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@contacty/providencia/base/providencia": [
-        "libs/providencia/base/providencia/src/index.ts"
-      ],
-      "@contacty/providencia/nestjs/providencia-nestjs": [
-        "libs/providencia/nestjs/providencia-nestjs/src/index.ts"
-      ]
+      "@contacty/providencia-base": ["libs/providencia/base/src/index.ts"],
+      "@contacty/providencia-nestjs": ["libs/providencia/nestjs/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

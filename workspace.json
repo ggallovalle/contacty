@@ -155,45 +155,43 @@
         }
       }
     },
-    "providencia-base-providencia": {
-      "root": "libs/providencia/base/providencia",
-      "sourceRoot": "libs/providencia/base/providencia/src",
+    "providencia-base": {
+      "root": "libs/providencia/base",
+      "sourceRoot": "libs/providencia/base/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/providencia/base/providencia/**/*.ts"]
+            "lintFilePatterns": ["libs/providencia/base/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/providencia/base/providencia"],
+          "outputs": ["coverage/libs/providencia/base"],
           "options": {
-            "jestConfig": "libs/providencia/base/providencia/jest.config.js",
+            "jestConfig": "libs/providencia/base/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "providencia-nestjs-providencia-nestjs": {
-      "root": "libs/providencia/nestjs/providencia-nestjs",
-      "sourceRoot": "libs/providencia/nestjs/providencia-nestjs/src",
+    "providencia-nestjs": {
+      "root": "libs/providencia/nestjs",
+      "sourceRoot": "libs/providencia/nestjs/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/providencia/nestjs/providencia-nestjs/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/providencia/nestjs/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/providencia/nestjs/providencia-nestjs"],
+          "outputs": ["coverage/libs/providencia/nestjs"],
           "options": {
-            "jestConfig": "libs/providencia/nestjs/providencia-nestjs/jest.config.js",
+            "jestConfig": "libs/providencia/nestjs/jest.config.js",
             "passWithNoTests": true
           }
         }

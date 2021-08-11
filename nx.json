@@ -29,10 +29,10 @@
     "frontend": {
       "tags": []
     },
-    "providencia-base-providencia": {
+    "providencia-base": {
       "tags": []
     },
-    "providencia-nestjs-providencia-nestjs": {
+    "providencia-nestjs": {
       "tags": []
     }
   },
