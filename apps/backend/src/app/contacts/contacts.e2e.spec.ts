@@ -4,9 +4,10 @@ import { ContactsModule } from './contacts.module';
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { SharedModule } from '../../shared/shared.module';
-import { ContactsSeeder } from './contacts.seeder';
-import { UserSeeder } from '../auth/user.seeder';
 import { PrismaService } from '../../shared/prisma.service';
+import { SeedersModule } from '../../seeders/seeders.module';
+import { contactsSeeder, userSeeder } from '../../seeders/seeders.providers';
+import { prismaSrv } from '../../shared/shared.providers';
 
 describe('Contacts', () => {
   let app: INestApplication;
@@ -17,21 +18,22 @@ describe('Contacts', () => {
   let currentUserContacts: any[];
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [ContactsModule, SharedModule, ContactsSeeder, UserSeeder],
+      imports: [ContactsModule, SharedModule, SeedersModule],
+      // providers: [ContactsSeeder, UserSeeder],
     }).compile();
 
     app = moduleRef.createNestApplication();
     await app.init();
-    seeder = app.get(PrismaService);
-    const userSeeder = app.get(UserSeeder);
-    const contactSeeder = app.get(ContactsSeeder);
-    await userSeeder.seed(2);
-    users = userSeeder.data;
-    await contactSeeder.seed(
+    seeder = app.get(prismaSrv.token);
+    const userSeed = app.get(userSeeder.token);
+    const contactSeed = app.get(contactsSeeder.token);
+    await userSeed.seed(2);
+    users = userSeed.data;
+    await contactSeed.seed(
       users.map((it) => it.id),
       15
     );
-    contacts = contactSeeder.data;
+    contacts = contactSeed.data;
     currentUser = users[0];
     currentUserContacts = contacts.filter((it) => it.userId === currentUser.id);
   });
