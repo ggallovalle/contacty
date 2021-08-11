@@ -28,6 +28,12 @@
     },
     "frontend": {
       "tags": []
+    },
+    "providencia-base-providencia": {
+      "tags": []
+    },
+    "providencia-nestjs-providencia-nestjs": {
+      "tags": []
     }
   },
   "targetDependencies": {
