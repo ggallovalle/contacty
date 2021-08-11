@@ -1,7 +1,7 @@
 import { ContactsService } from './contacts.service';
 import { IContactsRepository } from './contacts.types';
 import { mock, MockProxy } from 'jest-mock-extended';
-import { NotFoundError, ValidationError } from '../../errors';
+import { NotFoundException, ValidationException } from '../../errors';
 
 describe('ContactsService', () => {
   let sut: ContactsService;
@@ -33,7 +33,7 @@ describe('ContactsService', () => {
       [{}, { email: 'asdf' }]
     )("should trow if doesn't pass validation", async (data: any) => {
       // Assert
-      await expect(sut.create(data, auth)).rejects.toThrow(ValidationError);
+      await expect(sut.create(data, auth)).rejects.toThrow(ValidationException);
     });
   });
 
@@ -52,6 +52,6 @@ describe('ContactsService', () => {
     repo.findById.mockReturnValueOnce(Promise.resolve(null));
     // Act
     // Assert
-    await expect(sut.findById(id, auth)).rejects.toThrow(NotFoundError);
+    await expect(sut.findById(id, auth)).rejects.toThrow(NotFoundException);
   });
 });

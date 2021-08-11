@@ -5,7 +5,7 @@ export interface Newable<T> {
 }
 
 export type ContainerTokens<T extends AnyArray> = T['length'] extends 0
-  ? never
+  ? [] // in case that it doesn't receive parameters
   : T['length'] extends 1
   ? [TokenHolder<T[0]>]
   : T['length'] extends 2
@@ -14,7 +14,16 @@ export type ContainerTokens<T extends AnyArray> = T['length'] extends 0
   ? [TokenHolder<T[0]>, TokenHolder<T[1]>, TokenHolder<T[2]>]
   : T['length'] extends 4
   ? [TokenHolder<T[0]>, TokenHolder<T[1]>, TokenHolder<T[2]>, TokenHolder<T[3]>]
-  : never;
+  : T['length'] extends 5
+  ? [
+      TokenHolder<T[0]>,
+      TokenHolder<T[1]>,
+      TokenHolder<T[2]>,
+      TokenHolder<T[3]>,
+      TokenHolder<T[4]>
+    ]
+  : // a function with more than 5 parameters I would considered to be poorly designed
+    never;
 
 export type Token<T> = string | symbol | Newable<T>;
 

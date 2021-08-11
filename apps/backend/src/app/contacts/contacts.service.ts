@@ -1,6 +1,6 @@
 import { Contact, CreateContact, IContactsRepository } from './contacts.types';
 import { AuthAware } from '../../types/auth';
-import { NotFoundError, ValidationError } from '../../errors';
+import { NotFoundException, ValidationException } from '../../errors';
 
 export class ContactsService {
   constructor(private readonly _repo: IContactsRepository) {}
@@ -11,7 +11,7 @@ export class ContactsService {
 
   async create(data: CreateContact, auth: AuthAware): Promise<{ id: number }> {
     if (!data.name) {
-      throw new ValidationError();
+      throw new ValidationException();
     }
     return this._repo.create(data, auth);
   }
@@ -19,7 +19,7 @@ export class ContactsService {
   async findById(id: number, auth: AuthAware): Promise<Contact> {
     const res = await this._repo.findById(id, auth);
     if (!res) {
-      throw new NotFoundError();
+      throw new NotFoundException();
     }
     return res;
   }

@@ -7,11 +7,14 @@ import {
   Delete,
   Put,
   Body,
+  UseFilters,
 } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 import { CurrentUser } from '../auth/current-user.decorator';
 import { AuthAware } from '../../types/auth';
+import { AppExceptionFilter } from '../../errors';
 
+@UseFilters(AppExceptionFilter)
 @Controller('contacts')
 export class ContactsController {
   constructor(private readonly _contactService: ContactsService) {}

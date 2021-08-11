@@ -8,6 +8,7 @@ import {
   Token,
 } from '@contacty/providencia-base';
 import { ClassProvider, FactoryProvider, Injectable } from '@nestjs/common';
+import { SCOPE_OPTIONS_METADATA } from '@nestjs/common/constants';
 
 const factoryErrorMsg = (klass, inject) =>
   `"klass" not provided and token isn't a constructor,
@@ -16,7 +17,15 @@ const factoryErrorMsg = (klass, inject) =>
 
 const classErrorMsg = (klass) =>
   `"klass" not provided and token isn't a constructor,
-          token: ${klass.name ?? `(${typeof klass}) ${JSON.stringify(klass)}`}`;
+          token: ${
+            klass?.name ?? `(${typeof klass}) ${JSON.stringify(klass)}`
+          }`;
+
+const classNotAnnotatedMsg = (klass) =>
+  `"klass" not annotated with @Injectable at definition time,
+          token: ${
+            klass?.name ?? `(${typeof klass}) ${JSON.stringify(klass)}`
+          }`;
 
 export class ProvidenciaNestjs<T = unknown>
   implements Providencia<T, ClassProvider, FactoryProvider>
@@ -32,20 +41,26 @@ export class ProvidenciaNestjs<T = unknown>
     //  only works if is specified in the actual declaration of the class
     //  which makes it more framework dependant
     if (isConstructorToken(this.token) && klass == null) {
-      Injectable()(this.token);
+      // Injectable()(this.token);
+      if (!Reflect.hasMetadata(SCOPE_OPTIONS_METADATA, this.token)) {
+        throw new ProvidenceError(classNotAnnotatedMsg(this.token));
+      }
       return {
         provide: this.token,
         useClass: this.token,
       };
     } else if (isConstructorToken(klass)) {
-      Injectable()(klass);
+      // Injectable()(klass);
+      if (!Reflect.hasMetadata(SCOPE_OPTIONS_METADATA, klass)) {
+        throw new ProvidenceError(classNotAnnotatedMsg(klass));
+      }
       return {
         provide: this.token,
         useClass: klass,
       };
     } else {
       // error
-      throw new ProvidenceError(classErrorMsg(klass));
+      throw new ProvidenceError(classErrorMsg(this.token));
     }
   }
 
